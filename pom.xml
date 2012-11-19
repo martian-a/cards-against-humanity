@@ -3,15 +3,31 @@
   <groupId>com.kaikoda.cah</groupId>
   <artifactId>cah</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Cards Against Humanity Card Generator</name>
+  <name>Cards Against Humanity: Card Generator</name>
   <description>A utility for creating a Cards Against Humanity deck.</description>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
   <build>    
-    <sourceDirectory>src/main</sourceDirectory>    
-    <testSourceDirectory>src/test</testSourceDirectory>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <testSourceDirectory>src/test/java</testSourceDirectory>
+  	<resources>
+  		<resource>		
+  			<directory>src/main/xsl</directory>
+  			<targetPath>xsl</targetPath>
+  		</resource>
+  		<resource>
+  			<directory>src/main/data</directory>
+  			<targetPath>data</targetPath>
+  		</resource>  		
+  	</resources>
+  	<testResources>
+  		<testResource>
+  			<directory>src/test/data</directory>
+  			<targetPath>data</targetPath>
+  		</testResource>  		
+  	</testResources>  	
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -33,6 +49,16 @@
   		<groupId>commons-io</groupId>
   		<artifactId>commons-io</artifactId>
   		<version>1.4</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>net.sf.saxon</groupId>
+  		<artifactId>Saxon-HE</artifactId>
+  		<version>9.4</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>xmlunit</groupId>
+  		<artifactId>xmlunit</artifactId>
+  		<version>1.3</version>
   	</dependency>
   </dependencies>
 </project>
