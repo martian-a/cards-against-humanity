@@ -1,0 +1,11 @@
+<?xml encoding="UTF-8"?>
+
+<!ELEMENT game (deck*) >
+<!ATTLIST game    
+    xml:lang NMTOKEN #IMPLIED>
+
+<!ELEMENT deck (card*) >
+<!ATTLIST deck
+    color (black|white) #REQUIRED >
+
+<!ELEMENT card (#PCDATA)>

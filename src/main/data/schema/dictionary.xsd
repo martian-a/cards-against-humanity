@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://cah.kaikoda.com/schema/dictionary" xmlns="http://cah.kaikoda.com/schema/dictionary" elementFormDefault="qualified">
+
+    <!-- Import W3C schema for namespaces so can explicitly reference xml:lang -->
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd" />
+
+    <!-- Root element: dictionary (entry*) -->
+    <xs:element name="dictionary">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="entry"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- entry (term+) -->
+    <xs:element name="entry">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="term"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- term (#PCDATA) -->
+    <xs:element name="term">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <!-- @xml:lang (required) -->
+                    <xs:attribute ref="xml:lang" use="required"/>
+                </xs:extension>
+            </xs:simpleContent>            
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

@@ -2,11 +2,11 @@
 <xsl:stylesheet 
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:cah="http://cah.kaikoda.com/xsl/functions"
+	xmlns:cah="http://cah.kaikoda.com"
 	version="2.0" 
 	exclude-result-prefixes="#all">
 	
-	<xsl:output indent="yes" encoding="UTF-8" method="xml" media-type="text/xml" />
+	<xsl:output indent="yes" encoding="UTF-8" method="xml" media-type="text/xml" doctype-public="-//Kaikoda//DTD CAH Cards 1.0//EN" doctype-system="../schema/cards.dtd" />
 	
 	<xsl:template match="game">
 	

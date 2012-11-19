@@ -1,0 +1,9 @@
+<?xml encoding="UTF-8"?>
+
+<!ELEMENT dictionary (entry*) >
+
+<!ELEMENT entry (term+) >
+
+<!ELEMENT term (#PCDATA)>
+<!ATTLIST term
+    xml:lang NMTOKEN #REQUIRED >
