@@ -3,12 +3,15 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:cah="http://cah.kaikoda.com/xsl/functions"
-	version="2.0">
+	version="2.0" 
+	exclude-result-prefixes="#all">
 	
 	<xsl:param name="path-to-dictionary" select="'../data/dictionaries/english.xml'" as="xs:string" />
 	<xsl:param name="output-language" select="'en-us'" as="xs:string" />
 	
 	<xsl:variable name="dictionary" select="document($path-to-dictionary)/*" as="element()?" />
+	
+	<xsl:output indent="yes" encoding="UTF-8" method="xml" media-type="text/xml" />
 	
 	<xsl:template match="game">
 		<xsl:variable name="source-language" select="normalize-space(@xml:lang)" as="xs:string?" />
