@@ -27,7 +27,7 @@
         <xs:complexType>
             <xs:simpleContent>
                 <xs:extension base="xs:string">
-                    <!-- @xml:lang (required) -->
+                    <!-- @xml:lang #REQUIRED -->
                     <xs:attribute ref="xml:lang" use="required"/>
                 </xs:extension>
             </xs:simpleContent>            
