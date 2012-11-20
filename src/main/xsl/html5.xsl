@@ -3,38 +3,34 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:cah="http://cah.kaikoda.com"
+	xmlns:html="http://www.w3.org/TR/html5/"
 	version="2.0" 
-	exclude-result-prefixes="#all">
+	exclude-result-prefixes="xsl xs cah html">
 	
-	<xsl:output indent="yes" encoding="UTF-8" method="xml" media-type="text/html" doctype-public="HTML" omit-xml-declaration="yes" />
+	<xsl:output 
+		method="xml"
+		indent="yes"
+		encoding="UTF-8"
+		omit-xml-declaration="no"
+		version="1.0"
+		media-type="text/xml"
+	/>
 	
 	<xsl:template match="/">	
-		<xsl:result-document>
+			<xsl:text disable-output-escaping="yes">
+&lt;!DOCTYPE html&gt;
+</xsl:text>
 			<html>
 				<xsl:apply-templates select="game/@xml:lang" />
 				<xsl:apply-templates select="game" mode="meta-data" />
 				<xsl:apply-templates select="game" mode="content" />
-			</html>
-		</xsl:result-document>		
+			</html>						
 	</xsl:template>
 	
 	<xsl:template match="game" mode="meta-data">
 		<head>
 			<title>Cards Against Humanity</title>
-			<style type="text/css"><![CDATA[
-				td {
-					width: 4.75cm;
-					height: 4.75cm;
-				}
-				.black .page {
-					background-color: black;
-					color: white;
-				}
-				.white .page {
-					background-color: white;
-					color: black;
-				}
-			]]></style>
+			<link href="style.css" rel="stylesheet" type="text/css" media="all" />
 		</head>
 	</xsl:template>
 	
@@ -76,8 +72,10 @@
 	</xsl:template>
 	
 	<xsl:template match="card">
-		<td>
-			<xsl:value-of select="." />
+		<td class="card">
+			<div>
+				<p><xsl:value-of select="." /></p>
+			</div>
 		</td>
 	</xsl:template>
 	

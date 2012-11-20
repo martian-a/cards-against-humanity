@@ -1,0 +1,23 @@
+.black .page {
+	background-color: black;
+	color: white;
+}
+.white .page {
+	background-color: white;
+	color: black;
+}
+.black .p {
+    color: white;
+}
+.black td {
+    border: 1px solid white;
+}
+
+td {
+	width: 4.75cm;
+	height: 4.75cm;
+}
+
+.card div {
+    padding: .25cm;
+}
