@@ -38,13 +38,13 @@ public class TestCardGenerator {
 	 */
 	@Before
 	public void setup() throws CardGeneratorConfigurationException {
-		
+
 		this.generator = new CardGenerator();
-		
+
 		XMLUnit.setIgnoreWhitespace(true);
 		XMLUnit.setIgnoreAttributeOrder(true);
 		XMLUnit.setIgnoreComments(true);
-		
+
 	}
 
 	/**
@@ -230,10 +230,47 @@ public class TestCardGenerator {
 		// Build the cards
 		Document result = generator.dedupe(xml);
 
-		// Retrieve test card data that contains the same cards but no duplicates.
+		// Retrieve test card data that contains the same cards but no
+		// duplicates.
 		documentBuilder.reset();
 		Document expected = documentBuilder.parse(this.getClass().getResourceAsStream("/data/control/cards/no_duplicates.xml"));
-		
+
+		// Check that the result is the same cards, but in just two decks and
+		// with no duplicates.
+		assertXMLEqual(expected, result);
+
+	}
+
+	/**
+	 * Check that the HTML version is generated correctly.
+	 * 
+	 * @throws SAXException
+	 *             if an error occurs while building one of the test or control
+	 *             documents.
+	 * 
+	 * @throws IOException
+	 *             if an error occurs while reading one of the test or control
+	 *             documents.
+	 * @throws TransformerException
+	 *             is an unrecoverable error occurs during the transformation.
+	 */
+	@Test
+	public void testCardGeneratorToHtml() throws SAXException, IOException, TransformerException {
+
+		// Retrieve test card data containing enough cards for multiple pages of
+		// each deck
+		DocumentBuilder documentBuilder = generator.getDocumentBuilder();
+		documentBuilder.reset();
+		Source xml = new DOMSource(documentBuilder.parse(this.getClass().getResourceAsStream("/data/test/cards/html5.xml")));
+
+		// Build the cards
+		Document result = generator.toHtml(xml);
+
+		// Retrieve test card data that contains the same cards but no
+		// duplicates.
+		documentBuilder.reset();
+		Document expected = documentBuilder.parse(this.getClass().getResourceAsStream("/data/control/cards/html5.html"));
+
 		// Check that the result is the same cards, but in just two decks and
 		// with no duplicates.
 		assertXMLEqual(expected, result);

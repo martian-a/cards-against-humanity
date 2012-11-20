@@ -27,6 +27,7 @@ import org.xml.sax.SAXException;
 public class CardGenerator implements ErrorListener {
 
 	private static final String PATH_TO_DEDUPING_XSL = "/xsl/remove_duplicates.xsl";
+	private static final String PATH_TO_HTML_XSL = "/xsl/html5.xsl";
 	private static final String PATH_TO_TRANSLATION_XSL = "/xsl/translate.xsl";
 
 	private DocumentBuilder documentBuilder;
@@ -74,6 +75,52 @@ public class CardGenerator implements ErrorListener {
 	}
 
 	/**
+	 * Removes duplicates in the card data.
+	 * 
+	 * @param xml
+	 *            card data.
+	 * @return de-duped card data.
+	 * @throws TransformerException
+	 *             if an unrecoverable error occurs during the translation.
+	 * @throws IOException
+	 *             if the file containing the XSLT for carrying out the
+	 *             translation can't be found or read.
+	 * @throws SAXException
+	 *             if the XSLT for executing the translation can't be parsed.
+	 */
+	protected Document dedupe(Source xml) throws TransformerException, SAXException, IOException {
+
+		Source xsl = this.getXsl(CardGenerator.PATH_TO_DEDUPING_XSL);
+
+		// Remove duplicates in the card data and return the result
+		return this.transform(xml, xsl, null);
+
+	}
+
+	/**
+	 * Generates an HTML5 version of the card data provided.
+	 * 
+	 * @param xml
+	 *            card data.
+	 * @return the cards as HTML5.
+	 * @throws TransformerException
+	 *             if an unrecoverable error occurs during the translation.
+	 * @throws IOException
+	 *             if the file containing the XSLT for carrying out the
+	 *             translation can't be found or read.
+	 * @throws SAXException
+	 *             if the XSLT for executing the translation can't be parsed.
+	 */
+	protected Document toHtml(Source xml) throws SAXException, IOException, TransformerException {
+
+		Source xsl = this.getXsl(CardGenerator.PATH_TO_HTML_XSL);
+
+		// Translate the card data and return the result
+		return this.transform(xml, xsl, null);
+
+	}
+
+	/**
 	 * Translates the card data from one language into another (if required).
 	 * 
 	 * @param xml
@@ -98,29 +145,6 @@ public class CardGenerator implements ErrorListener {
 
 	}
 
-	/**
-	 * Removes duplicates in the card data.
-	 * 
-	 * @param xml
-	 *            card data.
-	 * @return de-duped card data.
-	 * @throws TransformerException
-	 *             if an unrecoverable error occurs during the translation.
-	 * @throws IOException
-	 *             if the file containing the XSLT for carrying out the
-	 *             translation can't be found or read.
-	 * @throws SAXException
-	 *             if the XSLT for executing the translation can't be parsed.
-	 */
-	protected Document dedupe(Source xml) throws TransformerException, SAXException, IOException {
-
-		Source xsl = this.getXsl(CardGenerator.PATH_TO_DEDUPING_XSL);
-
-		// Remove duplicates in the card data and return the result
-		return this.transform(xml, xsl, null);
-
-	}
-	
 	private Transformer getTransformer(Source xsl, TreeMap<String, String> params) throws TransformerConfigurationException {
 
 		// Use the transformer factory to create a new transformer
