@@ -8,15 +8,25 @@
     <xs:element name="game">
         <xs:complexType>
             <xs:sequence>
-                <xs:element minOccurs="0" maxOccurs="unbounded" ref="deck" />
+                <xs:element minOccurs="0" maxOccurs="1" ref="deck" />
             </xs:sequence>
             <!-- @xml:lang #IMPLIED -->
             <xs:attribute ref="xml:lang" use="optional" />
         </xs:complexType>
     </xs:element>
     
-    <!-- deck (card*) -->
-    <xs:element name="deck">
+    <!-- deck (suit*) -->
+	<xs:element name="deck">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" ref="suit" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+    
+    <!-- suit (card*) -->
+    <xs:element name="suit">
         <xs:complexType>
             <xs:sequence>
                 <xs:element maxOccurs="unbounded" ref="card" />

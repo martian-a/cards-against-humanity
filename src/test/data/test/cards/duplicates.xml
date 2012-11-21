@@ -1,37 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game xml:lang="en-us">
-	<deck color="black">
-		<card>__________. High five, bro.</card>
-		<card>TSA guidelines now prohibit __________ on airplanes.</card>
-		<card>It's a pity that kids these days are all getting involved with __________.</card>
-		<card>I drink to forget __________.</card>
-	</deck>
-	<deck color="black">
-		<card>That's right, I killed __________. How, you ask? __________.</card>
-		<card>And the Academy Award for __________ goes to __________.</card>
-		<card>For my next trick, I will pull __________ out of __________.</card>
-		<card>In his new summer comedy, Rob Schneider is __________ trapped in the body of __________.</card>
-		<card>TSA guidelines now prohibit __________ on airplanes.</card>
-		<card>When I was tripping on acid, __________ turned into __________.</card>		
-	</deck>
-	<deck color="black">
-		<card>TSA guidelines now prohibit __________ on airplanes.</card>
-		<card>It's a pity that kids these days are all getting involved with __________.</card>
-		<card>What has been making life difficult at the nudist colony?</card>
-		<card>And I would have gotten away with it, too, if it hadn't been for __________.</card>
-		<card>What brought the orgy to a grinding halt?</card>
-	</deck>
-	<deck color="white">
-		<card>A Gypsy curse.</card>
-		<card>A moment of silence.</card>
-		<card>Flesh-eating bacteria.</card>
-		<card>An honest cop with nothing left to lose.</card>
-		<card>Famine.</card>
-	</deck>
-	<deck color="white">
-		<card>Flesh-eating bacteria.</card>
-		<card>Flying sex snakes.</card>
-		<card>Sexting.</card>
-		<card>Shapeshifters.</card>
+	<deck>
+		<suit color="black">
+			<card>__________. High five, bro.</card>
+			<card>TSA guidelines now prohibit __________ on airplanes.</card>
+			<card>It's a pity that kids these days are all getting involved with __________.</card>
+			<card>I drink to forget __________.</card>
+		</suit>
+		<suit color="black">
+			<card>That's right, I killed __________. How, you ask? __________.</card>
+			<card>And the Academy Award for __________ goes to __________.</card>
+			<card>For my next trick, I will pull __________ out of __________.</card>
+			<card>In his new summer comedy, Rob Schneider is __________ trapped in the body of __________.</card>
+			<card>TSA guidelines now prohibit __________ on airplanes.</card>
+			<card>When I was tripping on acid, __________ turned into __________.</card>
+		</suit>
+		<suit color="black">
+			<card>TSA guidelines now prohibit __________ on airplanes.</card>
+			<card>It's a pity that kids these days are all getting involved with __________.</card>
+			<card>What has been making life difficult at the nudist colony?</card>
+			<card>And I would have gotten away with it, too, if it hadn't been for __________.</card>
+			<card>What brought the orgy to a grinding halt?</card>
+		</suit>
+		<suit color="white">
+			<card>A Gypsy curse.</card>
+			<card>A moment of silence.</card>
+			<card>Flesh-eating bacteria.</card>
+			<card>An honest cop with nothing left to lose.</card>
+			<card>Famine.</card>
+		</suit>
+		<suit color="white">
+			<card>Flesh-eating bacteria.</card>
+			<card>Flying sex snakes.</card>
+			<card>Sexting.</card>
+			<card>Shapeshifters.</card>
+		</suit>
 	</deck>
 </game>

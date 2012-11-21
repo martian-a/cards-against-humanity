@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game xml:lang="en-gb">
-	<deck color="white">
-		<card>Capturing Newt Gingrich and making him dance in a monkey suit</card>
-	</deck>
-	<deck color="black">
-		<card>UK Border Agency guidelines now prohibit __________ on airplanes.</card>
-		<card>Premier League Football has banned __________ for giving players an unfair advantage.</card>
+	<deck>
+		<suit color="white">
+			<card>Capturing Newt Gingrich and making him dance in a monkey suit</card>
+		</suit>
+		<suit color="black">
+			<card>UK Border Agency guidelines now prohibit __________ on airplanes.</card>
+			<card>Premier League Football has banned __________ for giving players an unfair advantage.</card>
+		</suit>
 	</deck>
 </game>

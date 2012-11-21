@@ -60,7 +60,7 @@
 		</xsl:element>
 	</xsl:template>
 
-	<xsl:template match="deck | card" mode="translate">		
+	<xsl:template match="deck| suit | card" mode="translate">		
 		<xsl:element name="{name()}">
 			<xsl:copy-of select="@*" />
 			<xsl:apply-templates mode="translate" />

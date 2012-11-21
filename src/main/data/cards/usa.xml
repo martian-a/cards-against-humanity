@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE game PUBLIC "-//Kaikoda//DTD CAH Cards 1.0//EN" "../schema/cards.dtd">
 <game xml:lang="en-us">
-	<deck color="white">
-		<card>Capturing Newt Gingrich and making him dance in a monkey suit</card>
-	</deck>
-	<deck color="black">
-		<card>TSA guidelines now prohibit __________ on airplanes.</card>
-		<card>Major League Baseball has banned __________ for giving players an unfair advantage.</card>
+	<deck>
+		<suit color="white">
+			<card>Capturing Newt Gingrich and making him dance in a monkey suit</card>
+		</suit>
+		<suit color="black">
+			<card>TSA guidelines now prohibit __________ on airplanes.</card>
+			<card>Major League Baseball has banned __________ for giving players an unfair advantage.</card>
+		</suit>
 	</deck>
 </game>

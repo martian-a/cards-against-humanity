@@ -37,9 +37,15 @@
 	
 	<xsl:template match="game" mode="content">
 		<body>
-			<xsl:apply-templates select="deck[@color = 'white']" />
-			<xsl:apply-templates select="deck[@color = 'black']" />
+			<xsl:apply-templates select="deck" />
 		</body>
+	</xsl:template>
+	
+	<xsl:template match="deck">
+		<section class="deck">
+			<xsl:apply-templates select="suit[@color = 'white']" />
+			<xsl:apply-templates select="suit[@color = 'black']" />
+		</section>
 	</xsl:template>
 	
 	<xsl:template match="@xml:lang">
@@ -47,7 +53,7 @@
 		<xsl:attribute name="lang" select="." />
 	</xsl:template>
 	
-	<xsl:template match="deck">
+	<xsl:template match="suit">
 		<xsl:variable name="color" select="@color" />
 		<xsl:variable name="total-cards-per-row" select="4" as="xs:decimal" />
 		<xsl:variable name="total-rows-per-page" select="5" as="xs:decimal" />

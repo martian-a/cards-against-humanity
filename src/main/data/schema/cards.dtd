@@ -1,11 +1,17 @@
 <?xml encoding="UTF-8"?>
 
-<!ELEMENT game (deck*) >
+<!-- Typical DocType:
+<!DOCTYPE game PUBLIC "-//Kaikoda//DTD CAH Cards 1.0//EN" "http://cah.kaikoda.com/data/schema/cards.dtd">	
+-->
+
+<!ELEMENT game (deck) >
 <!ATTLIST game    
     xml:lang NMTOKEN #IMPLIED>
 
-<!ELEMENT deck (card*) >
-<!ATTLIST deck
+<!ELEMENT deck (suit*) >
+
+<!ELEMENT suit (card*) >
+<!ATTLIST suit
     color (black|white) #REQUIRED >
 
 <!ELEMENT card (#PCDATA)>
