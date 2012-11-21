@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE game PUBLIC "-//Kaikoda//DTD CAH Cards 1.0//EN" "../schema/cards.dtd">
+<game xml:lang="en-gb">	
+	<deck color="white">
+		<card>Emacs</card>
+		<card>Vim</card>		
+	</deck>
+</game>
