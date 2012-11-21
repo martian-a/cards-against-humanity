@@ -29,6 +29,7 @@
 	
 	<xsl:template match="game" mode="meta-data">
 		<head>
+			<meta charset="UTF-8" />
 			<title>Cards Against Humanity</title>
 			<link href="style.css" rel="stylesheet" type="text/css" media="all" />
 		</head>

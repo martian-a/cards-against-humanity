@@ -6,8 +6,18 @@
 	version="2.0" 
 	exclude-result-prefixes="#all">
 	
-	<xsl:output indent="yes" encoding="UTF-8" method="xml" media-type="text/xml" doctype-public="-//Kaikoda//DTD CAH Cards 1.0//EN" doctype-system="../schema/cards.dtd" />
+	<xsl:output 
+		method="xml"
+		version="1.0"
+		omit-xml-declaration="no"
+		encoding="UTF-8"
+		media-type="text/xml"
+		indent="yes" 		 
+		doctype-public="-//Kaikoda//DTD CAH Cards 1.0//EN" 
+		doctype-system="../schema/cards.dtd"
+	/>
 	
+		
 	<xsl:template match="game">
 	
 		<xsl:element name="game">

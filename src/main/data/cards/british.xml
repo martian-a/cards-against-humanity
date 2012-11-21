@@ -2,7 +2,7 @@
 <!DOCTYPE game PUBLIC "-//Kaikoda//DTD CAH Cards 1.0//EN" "../schema/cards.dtd">
 <game xml:lang="en-gb">
 	<deck color="black">
-		<card>"I'm not asking anybody," said Eeyore. "I'm just telling everybody. We can ______, or we can ______ with the ______. It's all the same to me."</card>
+		<card>“I'm not asking anybody,” said Eeyore. “I'm just telling everybody. We can ______, or we can ______ with the ______. It's all the same to me.”</card>
 		<card>To cure the British disease with ______ was like trying to cure leukaemia with ______.</card>
 		<card>The British soldier can stand up to anything except ______.</card>
 		<card>If there's one thing above all that sets me apart from Tony Blair it is ______.</card>
@@ -10,13 +10,13 @@
 		<card>By nature, men love ______.</card>
 		<card>______ is a girl's best friend.</card>
 		<card>Nobody ever died of ______.</card>
-		<card>"I could not live in a country so miserable as to possess no ______."</card>
+		<card>“I could not live in a country so miserable as to possess no ______.”</card>
 		<card>All good things which exist are the fruits of ______.</card>
 		<card>______ is such sweet ______.</card>
 		<card>The future's bright, the future's ________.</card>
 		<card>Probably the best ________ in the world</card>
 		<card>We can also agree that Saddam Hussein most certainly has ________ and is working towards ________.</card>
-		<card>"His ________ allows for ________ to be ready within 45 minutes."</card>
+		<card>“His ________ allows for ________ to be ready within 45 minutes.”</card>
 		<card>We shall go on to the end, we shall fight in _____, we shall fight on the ________, we shall fight with growing confidence and growing strength, we shall never surrender.</card>
 		<card>When a man is tired of ______ he is tired of life.</card>
 		<card>Education at state schools in the UK is ________ and this includes ________.</card>
@@ -25,7 +25,7 @@
 		<card>This is not just ______, this is ______.</card>
 		<card>You've got a lot to learn about ______, Thomas.</card>
 		<card>If you can't behave, I shall take away your ______, and have you ______.</card>
-		<card>"I blame Nick Clegg for ______."</card>
+		<card>“I blame Nick Clegg for ______.”</card>
 		<card>Jeremy Hunt believes ______ will cure any disease.</card>
 		<card>Premier League Football has banned ______ for giving players an unfair advantage.</card>
 		<card>David Cameron once met a ____ who told him to ____ .</card>
@@ -45,8 +45,8 @@
 		<card>Baby P</card>
 		<card>Danny Boyle's tribute to the NHS</card>
 		<card>The BBC in crisis</card>
-		<card>A group of drunk students playing "Six Degrees of Kevin Bacon"</card>
-		<card>Mitt Romney attempting to build a "special relationship" of his own</card>
+		<card>A group of drunk students playing “Six Degrees of Kevin Bacon”</card>
+		<card>Mitt Romney attempting to build a “special relationship” of his own</card>
 		<card>Binders full of women</card>
 		<card>50 Shades of Gray</card>
 		<card>Sebastian Coe</card>
@@ -73,7 +73,7 @@
 		<card>Pippa Middleton's arse</card>
 		<card>Nadine Dorries covered in insects on a reality TV show</card>
 		<card>Katie Price's 32FF breasts</card>
-		<card>a bowler hat</card>
+		<card>A bowler hat</card>
 		<card>Burberry check</card>
 		<card>Bird's custard</card>
 		<card>Number 10</card>
@@ -86,7 +86,7 @@
 		<card>Being ridden by Olive from On The Buses while she stuffs her fat face full of pickled onions</card>
 		<card>Being b-b-b-bounced by Tigger.</card>
 		<card>whipping hookers dressed in uniforms reminiscent of Auschwitz garb while declaring they need more punishment, as other hookers dressed in Nazi uniforms look on.</card>
-		<card>Hacking into the voicemail of a missing child to leave a fake "Hi mum, I'm safe" message.</card>
+		<card>Hacking into the voicemail of a missing child to leave a fake “Hi mum, I'm safe” message.</card>
 		<card>Peeing from a zip-wire down the central aisle of Westminster Cathedral during Holy Communion</card>
 		<card>Goat.se</card>
 		<card>Rickrolling</card>
@@ -96,8 +96,11 @@
 		<card>A Wikipedia {{ citation needed }} tag</card>
 		<card>{ TL; DR }</card>
 		<card>An email from a Nigerian prince promising loads of money</card>
-		<card>"All your base are belong to us"</card>
+		<card>“All your base are belong to us”</card>
 		<card>Fail whale</card>
 		<card>Two girls, one cup</card>
+		<card>Wales</card>
+		<card>Cheryl Cole's winterwear collection.</card>
+		<card>Bishops in the House of Lords.</card>
 	</deck>
 </game>

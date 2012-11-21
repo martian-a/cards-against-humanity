@@ -297,7 +297,7 @@ public class CardGenerator implements ErrorListener {
 			String html = this.toHtml(xml);
 
 			File outputLocation = new File("cards_against_humanity.html");
-			FileUtils.writeStringToFile(outputLocation, html);
+			FileUtils.writeStringToFile(outputLocation, html, "UTF-8");
 
 			System.out.print("...file saved:\n");
 			System.out.println(outputLocation.getAbsolutePath());
@@ -470,7 +470,7 @@ public class CardGenerator implements ErrorListener {
 
 		// Prepare for DOM Document building
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-		documentBuilderFactory.setExpandEntityReferences(false);
+		documentBuilderFactory.setExpandEntityReferences(true);
 		documentBuilderFactory.setNamespaceAware(true);
 		documentBuilderFactory.setValidating(false);
 		documentBuilderFactory.setIgnoringElementContentWhitespace(true);
