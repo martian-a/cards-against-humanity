@@ -41,7 +41,21 @@ div {
     margin: auto;
     overflow: hidden;
 }
- 
+.long {
+    font-size: .95em;
+}
+.very-long {
+    font-size: .85em;
+}
+.very-very-long {
+    font-size: .80em;
+}
+.too-long {
+    font-size: .7em;
+}
+.far-too-long {
+    font-size: .6em;
+} 
 
 /*
  * Question cards

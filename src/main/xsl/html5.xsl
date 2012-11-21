@@ -65,9 +65,24 @@
 	</xsl:template>
 	
 	<xsl:template match="card">
+		<xsl:variable name="total-characters" select="string-length(.)" as="xs:integer" />
+		
 		<div class="card">
 			<div class="content">
-				<p><xsl:value-of select="." /></p>
+				<p>
+					<xsl:if test="$total-characters &gt; 80">
+						<xsl:attribute name="class">
+							<xsl:choose>
+								<xsl:when test="$total-characters &gt; 150">far-too-long</xsl:when>
+								<xsl:when test="$total-characters &gt; 125">too-long</xsl:when>
+								<xsl:when test="$total-characters &gt; 110">very-very-long</xsl:when>
+								<xsl:when test="$total-characters &gt; 90">very-long</xsl:when>
+								<xsl:otherwise>long</xsl:otherwise>
+							</xsl:choose>							
+						</xsl:attribute>
+					</xsl:if>
+					<xsl:value-of select="." />
+				</p>
 			</div>
 		</div>
 	</xsl:template>
