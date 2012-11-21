@@ -1,7 +1,7 @@
 /*
  * Reset
  */
- body, section, div, table, tr, td, p {
+ body, section, div, p {
     margin: 0;
     padding: 0;
     text-align: left;
@@ -10,11 +10,7 @@
 /*
  * Page
  */
-table {
-    margin: auto;
-    border-collapse: collapse;
-}
-tr {
+div {
     page-break-inside: avoid;
     page-break-after: auto;    
 }
@@ -22,7 +18,7 @@ tr {
 /*
  * All cards
  */
-td {
+.card {
 	width: 4.75cm;
 	height: 4.75cm;
 	margin: 0;
@@ -30,15 +26,14 @@ td {
 	vertical-align: top;
 	background-repeat: no-repeat;
 	background-position: left bottom;
-}
-.card div {
-    padding-top: .3cm;
-}
-.card {
-    font-family: 'Helvetica Neue CE 75 Bold', Helvetica, Ubuntu, sans-serif;
+	font-family: 'Helvetica Neue CE 75 Bold', Helvetica, Ubuntu, sans-serif;
     font-weight: bold;
     line-height: 130%;
     word-wrap: break-word;
+    float: left;
+}
+.card div {
+    padding-top: .3cm;
 }
 .card p {
     width: 4.1cm;
@@ -51,30 +46,25 @@ td {
 /*
  * Question cards
  */
-.black td {
+.black .card {
 	background-color: black;
 	background-image: url('branding_on_black.png');
+	border: 1px solid white;
 }
 .black p {
 	background-color: inherit;
     color: white;
 }
-.black td {
-    border: 1px solid white;
-}
-
 
 /*
  * Answer cards
  */
-.white td {
+.white .card {
 	background-color: white;
 	background-image: url('branding_on_white.png');
+	border: 1px solid silver;
 }
 .white p {
 	background-color: inherit;
     color: black;
-}
-.white td{
-    border: 1px solid silver;
 }
