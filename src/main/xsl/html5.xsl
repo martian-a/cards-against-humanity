@@ -54,29 +54,21 @@
 
 		<section class="{$color}">
 			<!-- Group into pages -->
-			<xsl:for-each-group select="card" group-starting-with="card[(position() mod $total-cards-per-page) = 1]">
-				<div class="page">				
-					<table>
-						<tbody>	
-							<!-- Group into rows -->
-							<xsl:for-each-group select="current-group()" group-starting-with="card[(position() mod 4) = 1]">													
-								<tr>
-									<xsl:apply-templates select="current-group()" />
-								</tr>
-							</xsl:for-each-group>
-						</tbody>	
-					</table>
-				</div>
+			<xsl:for-each-group select="card" group-starting-with="card[(position() mod $total-cards-per-page) = 1]">			
+				<!-- Group into rows -->
+				<xsl:for-each-group select="current-group()" group-starting-with="card[(position() mod 4) = 1]">													
+					<xsl:apply-templates select="current-group()" />
+				</xsl:for-each-group>
 		</xsl:for-each-group>
 		</section>
 	</xsl:template>
 	
 	<xsl:template match="card">
-		<td class="card">
-			<div>
+		<div class="card">
+			<div class="content">
 				<p><xsl:value-of select="." /></p>
 			</div>
-		</td>
+		</div>
 	</xsl:template>
 	
 </xsl:stylesheet>
