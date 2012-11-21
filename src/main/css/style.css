@@ -1,23 +1,80 @@
-.black .page {
+/*
+ * Reset
+ */
+ body, section, div, table, tr, td, p {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+ }
+
+/*
+ * Page
+ */
+table {
+    margin: auto;
+    border-collapse: collapse;
+}
+tr {
+    page-break-inside: avoid;
+    page-break-after: auto;    
+}
+
+/*
+ * All cards
+ */
+td {
+	width: 4.75cm;
+	height: 4.75cm;
+	margin: 0;
+	padding: 0;
+	vertical-align: top;
+	background-repeat: no-repeat;
+	background-position: left bottom;
+}
+.card div {
+    padding-top: .3cm;
+}
+.card {
+    font-family: 'Helvetica Neue CE 75 Bold', Helvetica, Ubuntu, sans-serif;
+    font-weight: bold;
+    line-height: 130%;
+    word-wrap: break-word;
+}
+.card p {
+    width: 4.1cm;
+    height: 4.2cm;
+    margin: auto;
+    overflow: hidden;
+}
+ 
+
+/*
+ * Question cards
+ */
+.black td {
 	background-color: black;
-	color: white;
+	background-image: url('branding_on_black.png');
 }
-.white .page {
-	background-color: white;
-	color: black;
-}
-.black .p {
+.black p {
+	background-color: inherit;
     color: white;
 }
 .black td {
     border: 1px solid white;
 }
 
-td {
-	width: 4.75cm;
-	height: 4.75cm;
-}
 
-.card div {
-    padding: .25cm;
+/*
+ * Answer cards
+ */
+.white td {
+	background-color: white;
+	background-image: url('branding_on_white.png');
+}
+.white p {
+	background-color: inherit;
+    color: black;
+}
+.white td{
+    border: 1px solid silver;
 }
