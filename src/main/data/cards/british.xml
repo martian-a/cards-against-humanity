@@ -30,6 +30,8 @@
 			<card>Jeremy Hunt believes ______ will cure any disease.</card>
 			<card>Premier League Football has banned ______ for giving players an unfair advantage.</card>
 			<card>David Cameron once met a ____ who told him to ____ .</card>
+                        <card>“______ takes gold for Team GB in _____.”</card>
+                        <card>“You are only supposed to blow ______________ off.”</card>
 		</suit>
 		<suit color="white">
 			<card>Jimmy Savile</card>
@@ -89,7 +91,7 @@
 			<card>Whipping hookers dressed in uniforms reminiscent of Auschwitz garb while declaring they need more punishment, as other hookers dressed in Nazi uniforms look on.</card>
 			<card>Hacking into the voicemail of a missing child to leave a fake “Hi mum, I'm safe” message.</card>
 			<card>Peeing from a zip-wire down the central aisle of Westminster Cathedral during Holy Communion</card>
-			<card>Goat.se</card>
+			<card>Goatse</card>
 			<card>Rickrolling</card>
 			<card>Nyan cat</card>
 			<card>XKCD</card>
@@ -104,6 +106,11 @@
 			<card>Cheryl Cole's winterwear collection.</card>
 			<card>Bishops in the House of Lords.</card>
                         <card>Tom Daley</card>
+                        <card>The Leveson Inquiry</card>
+                        <card>Mumsnet</card>
+                        <card>Fathers4Justice</card>
+                        <card>UKIP</card>
+                        <card>George Galloway</card>
 		</suit>
 	</deck>
 </game>
