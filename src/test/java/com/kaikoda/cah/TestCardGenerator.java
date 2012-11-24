@@ -7,11 +7,15 @@ import static org.junit.Assert.assertNotNull;
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import org.apache.commons.cli.MissingArgumentException;
+import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.FileUtils;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.After;
@@ -22,6 +26,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+
+import com.kaikoda.cah.ProgressReporter.ProgressReporterMode;
 
 /**
  * @author Sheila Thomson
@@ -81,6 +87,7 @@ public class TestCardGenerator {
 	public void setup() throws CardGeneratorConfigurationException {
 
 		this.generator = new CardGenerator();
+		this.generator.setVerbosity(ProgressReporterMode.CALLBACK);
 
 		XMLUnit.setIgnoreWhitespace(true);
 		XMLUnit.setIgnoreAttributeOrder(true);
@@ -336,13 +343,15 @@ public class TestCardGenerator {
 	 * @throws IOException when something goes wrong while reading or writing to
 	 *         the file.
 	 * @throws ParserConfigurationException
+	 * @throws ParseException if there are any problems encountered while
+	 *         parsing the command line tokens. 
 	 */
 	@Test
-	public void testCardGeneratorMain() throws CardGeneratorConfigurationException, SAXException, IOException, ParserConfigurationException {
+	public void testCardGeneratorMain() throws CardGeneratorConfigurationException, SAXException, IOException, ParserConfigurationException, ParseException {
 
 		File input = this.getFile("/data/test/cards/html5.xml");
 
-		String[] args = new String[] { "-f", input.getAbsolutePath() };
+		String[] args = new String[] { "-f", input.getAbsolutePath(), "-v", "callback" };
 		CardGenerator.main(args);
 
 		// Check that a file has been created where the HTML file is expected.
@@ -366,11 +375,13 @@ public class TestCardGenerator {
 	 * @throws ParserConfigurationException
 	 * @throws IOException
 	 * @throws SAXException
+	 * @throws ParseException if there are any problems encountered while
+	 *         parsing the command line tokens.
 	 */
 	@Test
-	public void testCardGeneratorMain_cardDataNotFound() throws CardGeneratorConfigurationException, SAXException, IOException, ParserConfigurationException {
+	public void testCardGeneratorMain_cardDataNotFound() throws CardGeneratorConfigurationException, SAXException, IOException, ParserConfigurationException, ParseException {
 
-		String[] args = new String[] { "-f", "phantom.xml" };
+		String[] args = new String[] { "-f", "phantom.xml", "-v", "callback" };
 
 		exception.expect(IllegalArgumentException.class);
 		exception.expectMessage("File not found: ");
@@ -388,11 +399,16 @@ public class TestCardGenerator {
 	 * @throws ParserConfigurationException
 	 * @throws IOException
 	 * @throws SAXException
+	 * @throws ParseException if there are any problems encountered while
+	 *         parsing the command line tokens.
 	 */
 	@Test
-	public void testCardGeneratorMain_cardDataNotSupplied() throws CardGeneratorConfigurationException, SAXException, IOException, ParserConfigurationException {
+	public void testCardGeneratorMain_cardDataNotSupplied() throws CardGeneratorConfigurationException, SAXException, IOException, ParserConfigurationException, ParseException {
 
-		String[] args = new String[] { "-f" };
+		exception.expect(MissingArgumentException.class);
+		exception.expectMessage("Missing argument for option: f");
+		
+		String[] args = new String[] { "-f", "-v", "callback" };
 		CardGenerator.main(args);
 
 		File result = OUTPUT_FILE_HTML;
@@ -409,13 +425,18 @@ public class TestCardGenerator {
 	 * @throws ParserConfigurationException
 	 * @throws IOException
 	 * @throws SAXException
+	 * @throws ParseException if there are any problems encountered while
+	 *         parsing the command line tokens.
 	 */
 	@Test
-	public void testCardGeneratorMain_dictionaryNotFound() throws CardGeneratorConfigurationException, SAXException, IOException, ParserConfigurationException {
+	public void testCardGeneratorMain_dictionaryNotFound() throws CardGeneratorConfigurationException, SAXException, IOException, ParserConfigurationException, ParseException {
 
+		exception.expect(MissingArgumentException.class);
+		exception.expectMessage("Missing argument for option: d");
+		
 		File input = this.getFile("/data/test/cards/html5.xml");
 
-		String[] args = new String[] { "-f", input.getAbsolutePath(), "-d" };
+		String[] args = new String[] { "-f", input.getAbsolutePath(), "-d", "-v", "callback" };
 		CardGenerator.main(args);
 
 		File result = OUTPUT_FILE_HTML;
@@ -432,13 +453,15 @@ public class TestCardGenerator {
 	 * @throws ParserConfigurationException
 	 * @throws IOException
 	 * @throws SAXException
+	 * @throws ParseException if there are any problems encountered while
+	 *         parsing the command line tokens.
 	 */
 	@Test
-	public void testCardGeneratorMain_help() throws CardGeneratorConfigurationException, SAXException, IOException, ParserConfigurationException {
+	public void testCardGeneratorMain_help() throws CardGeneratorConfigurationException, SAXException, IOException, ParserConfigurationException, ParseException {
 
 		File input = this.getFile("/data/test/cards/html5.xml");
 
-		String[] args = new String[] { "-f", input.getAbsolutePath(), "-h" };
+		String[] args = new String[] { "-f", input.getAbsolutePath(), "-h", "-v", "callback" };
 		CardGenerator.main(args);
 
 		File result = OUTPUT_FILE_HTML;
@@ -455,11 +478,16 @@ public class TestCardGenerator {
 	 * @throws ParserConfigurationException
 	 * @throws IOException
 	 * @throws SAXException
+	 * @throws ParseException if there are any problems encountered while
+	 *         parsing the command line tokens.
 	 */
 	@Test
-	public void testCardGeneratorMain_noCardData() throws CardGeneratorConfigurationException, SAXException, IOException, ParserConfigurationException {
+	public void testCardGeneratorMain_noCardData() throws CardGeneratorConfigurationException, SAXException, IOException, ParserConfigurationException, ParseException {
 
-		String[] args = new String[0];
+		exception.expect(IllegalArgumentException.class);
+		exception.expectMessage("Nothing to process; no file or directory was specified.");
+		
+		String[] args = new String[] { "-v", "callback" };
 		CardGenerator.main(args);
 
 		File result = OUTPUT_FILE_HTML;
@@ -478,14 +506,16 @@ public class TestCardGenerator {
 	 * @throws IOException if an error occurs while reading one of the test or
 	 *         control documents.
 	 * @throws ParserConfigurationException
+	 * @throws ParseException if there are any problems encountered while
+	 *         parsing the command line tokens.
 	 */
 	@Test
-	public void testCardGeneratorMain_translate() throws CardGeneratorConfigurationException, SAXException, IOException, ParserConfigurationException {
+	public void testCardGeneratorMain_translate() throws CardGeneratorConfigurationException, SAXException, IOException, ParserConfigurationException, ParseException {
 
 		File input = this.getFile("/data/test/cards/usa.xml");
 		File dictionary = this.getFile("/data/control/dictionaries/english.xml");
 
-		String[] args = new String[] { "-f", input.getAbsolutePath(), "-d", dictionary.getAbsolutePath(), "-l", "en-gb" };
+		String[] args = new String[] { "-f", input.getAbsolutePath(), "-d", dictionary.getAbsolutePath(), "-l", "en-gb", "-v", "callback" };
 		CardGenerator.main(args);
 
 		// Check that a file has been created where the HTML file is expected.
@@ -599,4 +629,5 @@ public class TestCardGenerator {
 	private String getXmlString(String input) throws IOException {
 		return this.getXmlString(this.getFile(input));
 	}
+
 }

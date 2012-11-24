@@ -31,6 +31,12 @@ import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+/**
+ * Represents a deck of Cards Against Humanity.
+ * 
+ * @author Sheila Thomson
+ *
+ */
 public class Deck extends Observable {
 
 	/**
@@ -254,6 +260,12 @@ public class Deck extends Observable {
 		return true;
 	}
 
+	/**
+	 * Can be used to specify a Listener for reporting exceptions generated
+	 * during a Transformation.
+	 * 
+	 * @param listener an instance of ErrorListener.
+	 */
 	public void setErrorListener(ErrorListener listener) {
 		this.errorListener = listener;
 	}
