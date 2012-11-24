@@ -2,24 +2,14 @@ package com.kaikoda.cah;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
+import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.TreeMap;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.ErrorListener;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMResult;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -36,32 +26,7 @@ import org.xml.sax.SAXException;
  * 
  * @author Sheila Thomson
  */
-public class CardGenerator implements ErrorListener {
-
-	/**
-	 * XSLT for removing duplicates in the card data.
-	 */
-	private static final String PATH_TO_DEDUPING_XSL = "/xsl/remove_duplicates.xsl";
-
-	/**
-	 * XSLT for creating an HTML5 set of Cards Against Humanity.
-	 */
-	private static final String PATH_TO_HTML_XSL = "/xsl/html5.xsl";
-
-	/**
-	 * XSLT for translating card data from one culture to another.
-	 */
-	private static final String PATH_TO_TRANSLATION_XSL = "/xsl/translate.xsl";
-
-	/**
-	 * For building DOM Documents from XML.
-	 */
-	private DocumentBuilder documentBuilder;
-
-	/**
-	 * For creating Transformers.
-	 */
-	private TransformerFactory transformerFactory;
+public class CardGenerator {
 
 	/**
 	 * Default constructor.
@@ -70,12 +35,6 @@ public class CardGenerator implements ErrorListener {
 	 *         construct a usable instance of CardGenerator.
 	 */
 	public CardGenerator() throws CardGeneratorConfigurationException {
-
-		// Prepare for building DOM documents
-		this.setDocumentBuilder();
-
-		// Create a transformer to execute the transformation
-		this.setTransformerFactory();
 
 	}
 
@@ -86,8 +45,11 @@ public class CardGenerator implements ErrorListener {
 	 *        target language if translation is required.
 	 * @throws CardGeneratorConfigurationException when it's not possible to
 	 *         construct a usable instance of CardGenerator.
+	 * @throws IOException
+	 * @throws SAXException
+	 * @throws ParserConfigurationException
 	 */
-	public static void main(String[] args) throws CardGeneratorConfigurationException {
+	public static void main(String[] args) throws CardGeneratorConfigurationException, SAXException, IOException, ParserConfigurationException {
 
 		CardGenerator generator = new CardGenerator();
 
@@ -100,15 +62,18 @@ public class CardGenerator implements ErrorListener {
 
 			File data = new File(params.remove("path-to-data"));
 
-			if (!data.exists()) {
-
-				System.err.println("File not found: " + data.getPath());
-
-			} else {
-
-				generator.generate(data, params);
-
+			Locale targetLanguage = null;
+			if (params.containsKey("output-language")) {
+				targetLanguage = Locale.forLanguageTag(params.remove("output-language"));
 			}
+
+			File dictionary = null;
+			if (params.containsKey("path-to-dictionary")) {
+				dictionary = new File(params.remove("path-to-dictionary"));
+			}
+
+			generator.generate(data, targetLanguage, dictionary);
+
 		}
 
 	}
@@ -229,78 +194,103 @@ public class CardGenerator implements ErrorListener {
 		return params;
 	}
 
-	public void error(TransformerException exception) throws TransformerException {
-		// TODO: implement verbosity levels
-		System.err.println(exception.getMessage());
-	}
-
-	public void fatalError(TransformerException exception) {
-		// TODO: implement verbosity levels
-		System.err.println(exception.getMessage());
-		System.exit(1);
-	}
-
 	/**
 	 * Generates a printable deck of Cards Against Humanity.
 	 * 
-	 * @param input card data
-	 * @param params if translation is required, the target language and where
-	 *        to find the dictionary.
+	 * @param data
+	 * @param targetLanguage
+	 * @param dictionary
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
 	 */
-	public void generate(File input, TreeMap<String, String> params) {
+	public File generate(File data, Locale targetLanguage, File dictionary) throws SAXException, IOException, ParserConfigurationException {
+
+		if (!data.exists()) {
+
+			throw new IllegalArgumentException("File not found: " + data.getPath());
+
+		}
 
 		Document xml = null;
-		System.out.print("Reading card data...");
+		System.out.println("Reading card data...");
 		try {
 
-			documentBuilder.reset();
-			xml = this.documentBuilder.parse(input);
-			System.out.print("...data read.\n");
+			xml = Deck.parse(data);
+			System.out.println("...data read.\n");
 
 		} catch (SAXException e) {
+			System.err.println("Unable to parse card data.");
+			throw e;
+		} catch (IOException e) {
 			System.err.println("Unable to read card data.");
-		} catch (IOException e) {
+			throw e;
+		} catch (ParserConfigurationException e) {
 			System.err.println("Unable to read card data.");
+			throw e;
 		}
 
-		if (xml == null) {
-			System.exit(1);
+		Deck deck = new Deck(xml);
+
+		if (targetLanguage != null && targetLanguage != deck.getLocale()) {
+
+			System.out.println("Translating data...");
+			try {
+
+				deck.translate(targetLanguage, dictionary);
+				System.out.println("...translation complete.\n");
+
+			} catch (SAXException e) {
+				System.out.println("Unable to complete translation.");
+			} catch (IOException e) {
+				System.out.println("Unable to complete translation.");
+			} catch (TransformerException e) {
+				System.out.println("Unable to complete translation.");
+			} catch (ParserConfigurationException e) {
+				System.out.println("Unable to complete translation.");
+			}
+
 		}
 
-		System.out.print("Translating data...");
+		System.out.println("Standardising blanks...");
 		try {
-			xml = this.translate(xml, params);
-			System.out.print("...translation complete.\n");
+			deck.blank();
+			System.out.println("...blanks standardised.\n");
 		} catch (TransformerException e) {
-			System.err.println("Unable to complete translation.");
+			System.err.println("OCD FAIL. Unable to standardise blanks.");
 		} catch (SAXException e) {
-			System.err.println("Unable to complete translation.");
+			System.err.println("OCD FAIL. Unable to standardise blanks.");
 		} catch (IOException e) {
-			System.err.println("Unable to complete translation.");
+			System.err.println("OCD FAIL. Unable to standardise blanks.");
+		} catch (ParserConfigurationException e) {
+			System.err.println("OCD FAIL. Unable to standardise blanks.");
 		}
 
-		System.out.print("Removing duplicates...");
+		System.out.println("Checking for duplicates...");
 		try {
-			xml = this.dedupe(xml);
-			System.out.print("...de-duping complete.\n");
+			deck.dedupe();
+			System.out.println("...de-duping complete.\n");
 		} catch (TransformerException e) {
 			System.err.println("Unable to complete de-duping process.");
 		} catch (SAXException e) {
 			System.err.println("Unable to complete de-duping process.");
 		} catch (IOException e) {
 			System.err.println("Unable to complete de-duping process.");
+		} catch (ParserConfigurationException e) {
+			System.err.println("Unable to complete de-duping process.");
 		}
 
-		System.out.print("Generating HTML...");
+		System.out.println("Generating HTML...");
+		File htmlOutputLocation = null;
 		try {
 
-			String html = this.toHtml(xml);
+			String html = deck.toHtml();
 
-			File outputLocation = new File("cards_against_humanity.html");
-			FileUtils.writeStringToFile(outputLocation, html, "UTF-8");
+			htmlOutputLocation = new File("cards_against_humanity.html");
+			FileUtils.writeStringToFile(htmlOutputLocation, html, "UTF-8");
 
-			System.out.print("...file saved:\n");
-			System.out.println(outputLocation.getAbsolutePath());
+			System.out.println("...file saved:");
+			System.out.println(htmlOutputLocation.getAbsolutePath() + "\n");
 
 		} catch (SAXException e) {
 			System.err.println("Unable to save cards to file.");
@@ -308,261 +298,44 @@ public class CardGenerator implements ErrorListener {
 			System.err.println("Unable to save cards to file.");
 		} catch (TransformerException e) {
 			System.err.println("Unable to save cards to file.");
+		} catch (ParserConfigurationException e) {
+			System.err.println("Unable to save cards to file.");
 		}
 
-		System.out.print("Adding a dash of style...");
+		System.out.println("Adding a dash of style...");
 		try {
 
-			File outputLocation = new File("style.css");
-			FileUtils.copyURLToFile(this.getClass().getResource("/css/style.css"), outputLocation);
+			String directoryPath = "assets";
 
-			System.out.print("...file saved:\n");
-			System.out.println(outputLocation.getAbsolutePath());
+			File outputDirectory = new File(directoryPath);
+			outputDirectory.mkdir();
+
+			// TODO: Implement solution that either copies the entire directory
+			// or loops through its contents.
+
+			String path = outputDirectory.getName() + File.separator + "style.css";
+			FileUtils.copyURLToFile(this.getClass().getResource(File.separator + path), new File(path));
+
+			path = outputDirectory.getName() + File.separator + "branding_on_black.png";
+			FileUtils.copyURLToFile(this.getClass().getResource(File.separator + path), new File(path));
+
+			path = outputDirectory.getName() + File.separator + "branding_on_white.png";
+			FileUtils.copyURLToFile(this.getClass().getResource(File.separator + path), new File(path));
+
+			path = outputDirectory.getName() + File.separator + "branding_on_black_cards.png";
+			FileUtils.copyURLToFile(this.getClass().getResource(File.separator + path), new File(path));
+
+			System.out.println("...file saved:\n");
+			System.out.println(outputDirectory.getAbsolutePath());
 
 		} catch (IOException e) {
+			e.printStackTrace();
 			System.err.println("Unable to style.  Do it yourself.");
 		}
 
 		System.out.println("Card generation complete.");
-	}
 
-	/**
-	 * @return the DOM Document builder used by this instance of CardGenerator.
-	 */
-	public DocumentBuilder getDocumentBuilder() {
-		return this.documentBuilder;
-	}
-
-	public void warning(TransformerException exception) {
-		// TODO: implement verbosity levels
-		System.err.println(exception.getMessage());
-	}
-
-	/**
-	 * Removes duplicates in the card data.
-	 * 
-	 * @param xml card data.
-	 * @return de-duped card data.
-	 * @throws TransformerException if an unrecoverable error occurs during the
-	 *         translation.
-	 * @throws IOException if the file containing the XSLT for carrying out the
-	 *         translation can't be found or read.
-	 * @throws SAXException if the XSLT for executing the translation can't be
-	 *         parsed.
-	 */
-	protected Document dedupe(Document xml) throws TransformerException, SAXException, IOException {
-
-		Source xsl = this.getXsl(CardGenerator.PATH_TO_DEDUPING_XSL);
-
-		// Remove duplicates in the card data and return the result
-		return this.transformToDocument(xml, xsl, null);
-
-	}
-
-	/**
-	 * Generates an HTML5 version of the card data provided.
-	 * 
-	 * @param xml card data.
-	 * @return the cards as HTML5.
-	 * @throws TransformerException if an unrecoverable error occurs during the
-	 *         translation.
-	 * @throws IOException if the file containing the XSLT for carrying out the
-	 *         translation can't be found or read.
-	 * @throws SAXException if the XSLT for executing the translation can't be
-	 *         parsed.
-	 */
-	protected String toHtml(Document xml) throws SAXException, IOException, TransformerException {
-
-		Source xsl = this.getXsl(CardGenerator.PATH_TO_HTML_XSL);
-
-		// Translate the card data and return the result
-		String result = this.transformToString(xml, xsl, null);
-
-		return result;
-
-	}
-
-	/**
-	 * Translates the card data from one language into another (if required).
-	 * 
-	 * @param xml untranslated data for the cards.
-	 * @param params the target language and dictionary to use.
-	 * @return the translated card data.
-	 * @throws TransformerException if an unrecoverable error occurs during the
-	 *         translation.
-	 * @throws IOException if the file containing the XSLT for carrying out the
-	 *         translation can't be found or read.
-	 * @throws SAXException if the XSLT for executing the translation can't be
-	 *         parsed.
-	 */
-	protected Document translate(Document xml, TreeMap<String, String> params) throws TransformerException, SAXException, IOException {
-
-		Source xsl = this.getXsl(CardGenerator.PATH_TO_TRANSLATION_XSL);
-
-		// Translate the card data and return the result
-		return this.transformToDocument(xml, xsl, params);
-
-	}
-
-	/**
-	 * Creates an instance of Transformer primed for use with the XSLT and
-	 * parameters supplied.
-	 * 
-	 * @param xsl the XSLT that will be used to execute transformations.
-	 * @param params a list of parameters to be supplied to the XSLT.
-	 * @return an instance of Transformer that can execute transformations using
-	 *         the XSLT and parameters supplied.
-	 * @throws TransformerConfigurationException when it's not possible to
-	 *         configure the Transformer as required.
-	 */
-	private Transformer getTransformer(Source xsl, TreeMap<String, String> params) throws TransformerConfigurationException {
-
-		// Use the transformer factory to create a new transformer
-		Transformer transformer = transformerFactory.newTransformer(xsl);
-
-		// Specify that errors encountered during the transformation should
-		// be handled by the card generator itself.
-		transformer.setErrorListener(this);
-
-		// Pass parameters through to the XSLT
-		if (params != null) {
-
-			// Loop through all the parameters by name
-			for (String name : params.keySet()) {
-
-				// Use the name to retrieve the value
-				String value = params.get(name);
-
-				// If the parameter value isn't null, pass it through
-				if (value != null) {
-					transformer.setParameter(name, value);
-				}
-			}
-		}
-
-		// Return configured transformer
-		return transformer;
-
-	}
-
-	/**
-	 * Returns an XSLT stylesheet as an instance of Source, for use in
-	 * transformations.
-	 * 
-	 * @param path a pointer to a file containing the stylesheet required.
-	 * @return the stylesheet requested.
-	 * @throws SAXException when something goes wrong while building the Source.
-	 * @throws IOException when something goes wrong while reading the file that
-	 *         contains the XSLT.
-	 */
-	private Source getXsl(String path) throws SAXException, IOException {
-		documentBuilder.reset();
-		return new DOMSource(documentBuilder.parse(this.getClass().getResourceAsStream(path)));
-	}
-
-	/**
-	 * Creates and configures a re-usable instance of DocumentBuilder.
-	 * 
-	 * @throws CardGeneratorConfigurationException when it's not possible to
-	 *         configure the DocumentBuilder as required.
-	 */
-	private void setDocumentBuilder() throws CardGeneratorConfigurationException {
-
-		// Prepare for DOM Document building
-		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-		documentBuilderFactory.setExpandEntityReferences(true);
-		documentBuilderFactory.setNamespaceAware(true);
-		documentBuilderFactory.setValidating(false);
-		documentBuilderFactory.setIgnoringElementContentWhitespace(true);
-		try {
-			this.documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		} catch (ParserConfigurationException e) {
-			throw new CardGeneratorConfigurationException("Unable to configure document builder.");
-		}
-
-	}
-
-	/**
-	 * Creates and configures a re-usable factory for generating instances of
-	 * Transformer.
-	 * 
-	 * @throws CardGeneratorConfigurationException when it's not possible to
-	 *         configure the TransformerFactory as required.
-	 */
-	private void setTransformerFactory() throws CardGeneratorConfigurationException {
-
-		// Specify that Saxon should be used as the transformer instead of the
-		// system default
-		System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
-
-		// Create a transformer factory
-		this.transformerFactory = TransformerFactory.newInstance();
-
-	}
-
-	/**
-	 * Transforms XML using the XSLT stylesheet and parameters specified.
-	 * 
-	 * @param xml the XML to be transformed.
-	 * @param xsl the XSLT stylesheet to use for the transformation.
-	 * @param result a container to hold the result of the transformation.
-	 * @param params a list of parameters for configuring the XSLT stylesheet
-	 *        prior to the transformation.
-	 * @throws TransformerException when it's not possible to complete the
-	 *         transformation.
-	 */
-	private void transform(Source xml, Source xsl, Result result, TreeMap<String, String> params) throws TransformerException {
-
-		Transformer transformer = this.getTransformer(xsl, params);
-		transformer.transform(xml, result);
-
-	}
-
-	/**
-	 * Transforms XML using the XSLT stylesheet and parameters specified, return
-	 * the result as a DOM Document.
-	 * 
-	 * @param xml the XML to be transformed.
-	 * @param xsl the XSLT stylesheet to use for the transformation.
-	 * @param params a list of parameters for configuring the XSLT stylesheet
-	 *        prior to the transformation.
-	 * @return the result of the transformation as a DOM Document
-	 * @throws TransformerException when it's not possible to complete the
-	 *         transformation.
-	 */
-	private Document transformToDocument(Document xml, Source xsl, TreeMap<String, String> params) throws TransformerException {
-
-		// Create a container to hold the result of the transformation
-		documentBuilder.reset();
-		Document document = documentBuilder.newDocument();
-		DOMResult result = new DOMResult(document);
-
-		this.transform(new DOMSource(xml), xsl, result, params);
-
-		return document;
-	}
-
-	/**
-	 * Transforms XML using the XSLT stylesheet and parameters specified, return
-	 * the result as a String.
-	 * 
-	 * @param xml the XML to be transformed.
-	 * @param xsl the XSLT stylesheet to use for the transformation.
-	 * @param params a list of parameters for configuring the XSLT stylesheet
-	 *        prior to the transformation.
-	 * @return the result of the transformation as a String
-	 * @throws TransformerException when it's not possible to complete the
-	 *         transformation.
-	 */
-	private String transformToString(Document xml, Source xsl, TreeMap<String, String> params) throws TransformerException {
-
-		// Create a container to hold the result of the transformation
-		StringWriter writer = new StringWriter();
-		StreamResult result = new StreamResult(writer);
-
-		this.transform(new DOMSource(xml), xsl, result, params);
-
-		return writer.toString();
+		return htmlOutputLocation;
 	}
 
 }

@@ -7,7 +7,7 @@
 	exclude-result-prefixes="#all">
 	
 	<xsl:param name="path-to-dictionary" select="'../data/dictionaries/english.xml'" as="xs:string" />
-	<xsl:param name="output-language" select="'en-us'" as="xs:string" />
+	<xsl:param name="output-language" select="''" as="xs:string" />
 	
 	<xsl:variable name="dictionary" select="document($path-to-dictionary)/*" as="element()?" />
 	
@@ -23,12 +23,21 @@
 	/>
 	
 	<xsl:template match="game">
-		<xsl:variable name="source-language" select="normalize-space(@xml:lang)" as="xs:string?" />
-		<xsl:variable name="target-language" select="normalize-space($output-language)" as="xs:string?" />
+		<xsl:variable name="source-language" select="lower-case(normalize-space(@xml:lang))" as="xs:string?" />
+		<xsl:variable name="target-language" as="xs:string?">
+			<xsl:choose>
+				<!-- If no target language has been specified, assume it's to be the same as the source langauge -->
+				<xsl:when test="normalize-space($output-language) = ''"><xsl:value-of select="$source-language" /></xsl:when>
+				<xsl:otherwise>
+					<!-- target language specified -->
+					<xsl:value-of select="lower-case(normalize-space($output-language))" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		
 		<xsl:variable name="entries" as="element()*">
 			<xsl:if test="$source-language != '' and $target-language != ''">
-				<xsl:sequence select="$dictionary//entry[term/@xml:lang = $source-language and term/@xml:lang = $target-language]" />
+				<xsl:sequence select="$dictionary//entry[term/lower-case(@xml:lang) = $source-language and term/lower-case(@xml:lang) = $target-language]" />
 			</xsl:if>
 		</xsl:variable>
 		
@@ -44,14 +53,14 @@
 		<xsl:param name="entries" as="element()*" tunnel="yes" />
 		<xsl:param name="target-language" as="xs:string?" tunnel="yes" />		
 		
-		<xsl:element name="{name()}">
+		<xsl:element name="{name()}">			
 			<xsl:attribute name="xml:lang">
 				<xsl:choose>
 					<xsl:when test="$target-language != '' and count($entries) &gt; 0">
 						<xsl:value-of select="$target-language" />
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="@xml:lang" />
+						<xsl:value-of select="$target-language" />
 					</xsl:otherwise>						
 				</xsl:choose>
 			</xsl:attribute>			
@@ -60,7 +69,7 @@
 		</xsl:element>
 	</xsl:template>
 
-	<xsl:template match="deck| suit | card" mode="translate">		
+	<xsl:template match="deck| suit | card | blank" mode="translate">		
 		<xsl:element name="{name()}">
 			<xsl:copy-of select="@*" />
 			<xsl:apply-templates mode="translate" />
@@ -86,7 +95,7 @@
 				<xsl:when test="normalize-space($from) != '' and normalize-space($to) != '' and count($entries) &gt; 0">
 					<xsl:for-each select="$entries[1]">				
 						<xsl:variable name="remaining-entries" select="$entries[position() != 1]" as="element()*" />
-						<xsl:value-of select="cah:translate(replace($in, term[@xml:lang = $from], term[@xml:lang = $to]), $remaining-entries, $from, $to)" />
+						<xsl:value-of select="cah:translate(replace($in, term[lower-case(@xml:lang) = $from], term[lower-case(@xml:lang) = $to]), $remaining-entries, $from, $to)" />
 					</xsl:for-each>		
 				</xsl:when>
 				<xsl:otherwise>

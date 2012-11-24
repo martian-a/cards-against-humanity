@@ -1,0 +1,150 @@
+/*
+ * Reset
+ */
+ body, section, div, p {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+ }
+
+/*
+ * Page
+ */
+div {
+    page-break-inside: avoid;
+    page-break-after: auto;    
+}
+
+/*
+ * All cards
+ */
+.card {
+    position: relative;
+	width: 4.75cm;
+	height: 4.75cm;
+	margin: 0;
+	padding: 0;
+	vertical-align: top;
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	font-family: 'Helvetica Neue CE 75 Bold', Helvetica, Ubuntu, sans-serif;
+    font-weight: bold;
+    font-size: 12pt;
+    line-height: 1.3em;
+    word-wrap: break-word;
+    float: left;
+}
+.card div {
+    padding-top: .3cm;
+}
+.card p {
+    width: 4.1cm;
+    height: 4.2cm;
+    margin: auto;
+    overflow: hidden;
+}
+
+/* 
+ * Make room for draw instruction
+ */
+.blanks-3 .content {
+    font-size: .95em;
+}
+.blanks-4 .content {
+    font-size: .9em;
+}
+.blanks-5 .content {
+    font-size: .85em;
+}
+.blanks-6 .content {
+    font-size: .8em;
+}
+
+
+/*
+ * Shrink to fit
+ */
+.long {
+    font-size: .95em;
+}
+.very-long {
+    font-size: .85em;
+}
+.very-very-long {
+    font-size: .80em;
+}
+.too-long {
+    font-size: .7em;
+}
+.far-too-long {
+    font-size: .6em;
+} 
+
+/*
+ * Question cards
+ */
+.black .card {
+	background-color: #000000;
+	background-image: url('branding_on_black.png');
+	border: 1px solid #ffffff;
+}
+.black p {
+	background-color: inherit;
+    color: #ffffff;
+}
+
+/*
+ * Answer cards
+ */
+.white .card {
+	background-color: #ffffff;
+	background-image: url('branding_on_white.png');
+	border: 1px solid silver;
+}
+.white p {
+	background-color: inherit;
+    color: #000000;
+}
+
+/*
+ * Instructions
+ */
+.instructions {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4.75cm;
+    height: 0.8cm;
+    overflow: hidden;
+    margin-top: 3.325cm;
+    text-transform: uppercase;
+    font-size: 10pt;
+}
+.black .card.has-instructions {
+	background-image: url('branding_on_black_cards.png');    
+}
+.instructions p {
+    text-align: right;
+    clear: both;
+    height: 1.5em;
+    position: absolute;
+    right: .32cm;
+    vertical-align: middle;
+    line-height: 1em;
+}
+.instructions p.draw {
+    top: 0;
+}
+.instructions p.pick {
+    bottom: 0;
+}
+.instructions .total {
+    color: #000000;
+    background-color: #ffffff;
+    border: 3px solid #ffffff;
+    height: 1em;
+    width: 1em;
+    border-radius: .3em;
+    display: inline-block;
+    text-align: center;
+}

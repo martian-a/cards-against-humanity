@@ -2,11 +2,12 @@
 <game xml:lang="en-us">
 	<deck>
 		<suit color="white">
-			<card>Capturing Newt Gingrich and making him dance in a monkey suit</card>
+			<card>Judge Judy</card>
+			<card>GoGurt™</card>
 		</suit>
 		<suit color="black">
-			<card>TSA guidelines now prohibit __________ on airplanes.</card>
-			<card>Major League Baseball has banned __________ for giving players an unfair advantage.</card>
+			<card>TSA guidelines now prohibit <blank/> on airplanes.</card>
+			<card>Major League Baseball has banned <blank/> for giving players an unfair advantage.</card>
 		</suit>
 	</deck>
 </game>

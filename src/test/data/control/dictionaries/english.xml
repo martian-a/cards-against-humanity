@@ -3,10 +3,12 @@
 	<entry>
 		<term xml:lang="en-us">TSA</term>
 		<term xml:lang="en-gb">UK Border Agency</term>
+		<term xml:lang="en-nl">Royal Marechaussee</term>
 	</entry>
 	<entry>
 		<term xml:lang="en-us">Judge Judy</term>
 		<term xml:lang="en-gb">Jeremy Kyle</term>
+		<term xml:lang="en-nl">The Driving Judge</term>
 	</entry>
 	<entry>
 		<term xml:lang="en-us">Hardworking Mexican</term>
@@ -26,7 +28,7 @@
 	</entry>
 	<entry>
 		<term xml:lang="en-us">John Wilkes Booth</term>
-		<term xml:lang="en-gb">Guy Fawes</term>
+		<term xml:lang="en-gb">Guy Fawkes</term>
 	</entry>
 	<entry>
 		<term xml:lang="en-us">Racially-biased SAT questions</term>
@@ -58,6 +60,7 @@
 	<entry>
 		<term xml:lang="en-us">GoGurt™</term>
 		<term xml:lang="en-gb">Frubes™</term>
+		<term xml:lang="en-nl">Breaker™</term>
 	</entry>
 	<entry>
 		<term xml:lang="en-us">All-you-can-eat shrimp for $4.99</term>
@@ -65,7 +68,7 @@
 	</entry>
 	<entry>
 		<term xml:lang="en-us">Hot Pockets™</term>
-		<term xml:lang="en-gb">A West Cornwall Pasty™</term>
+		<term xml:lang="en-gb">A Cornish Pasty™</term>
 	</entry>
 	<entry>
 		<term xml:lang="en-us">Five-Dollar Footlongs™</term>
@@ -78,5 +81,6 @@
 	<entry>
 		<term xml:lang="en-us">Major League Baseball</term>
 		<term xml:lang="en-gb">Premier League Football</term>
+		<term xml:lang="en-nl">The Premier Division</term>
 	</entry>
 </dictionary>

@@ -13,8 +13,10 @@
 		encoding="UTF-8"
 		omit-xml-declaration="no"
 		version="1.0"
-		media-type="text/xml"
+		media-type="application/xhtml+xml"
 	/>
+	
+	<xsl:variable name="blank"><xsl:text>________</xsl:text></xsl:variable>
 	
 	<xsl:template match="/">	
 			<xsl:text disable-output-escaping="yes">
@@ -31,7 +33,7 @@
 		<head>
 			<meta charset="UTF-8" />
 			<title>Cards Against Humanity</title>
-			<link href="style.css" rel="stylesheet" type="text/css" media="all" />
+			<link href="assets/style.css" rel="stylesheet" type="text/css" media="all" />
 		</head>
 	</xsl:template>
 	
@@ -71,9 +73,10 @@
 	</xsl:template>
 	
 	<xsl:template match="card">
-		<xsl:variable name="total-characters" select="string-length(.)" as="xs:integer" />
+		<xsl:variable name="total-characters" select="string-length(.) + (count(blank) * string-length($blank))" as="xs:integer" />
+		<xsl:variable name="total-blanks" select="count(blank)" as="xs:integer" />
 		
-		<div class="card">
+		<div class="card{if ($total-blanks &gt; 1) then ' has-instructions' else ''}{if ($total-blanks &gt; 1) then concat(' blanks-', $total-blanks) else ''}">			
 			<div class="content">
 				<p>
 					<xsl:if test="$total-characters &gt; 80">
@@ -87,10 +90,26 @@
 							</xsl:choose>							
 						</xsl:attribute>
 					</xsl:if>
-					<xsl:value-of select="." />
-				</p>
+					<xsl:apply-templates />
+				</p>			
 			</div>
+			<xsl:if test="$total-blanks &gt; 1">
+				<div class="instructions">
+					<xsl:if test="$total-blanks &gt; 2">							
+						<p class="draw">Draw <span class="total"><xsl:value-of select="$total-blanks - 1" /></span></p>
+					</xsl:if>
+					<p class="pick">Pick <span class="total"><xsl:value-of select="$total-blanks" /></span></p>
+				</div>		
+			</xsl:if>	
 		</div>
+	</xsl:template>
+	
+	<xsl:template match="blank">
+		<xsl:value-of select="$blank" />
+	</xsl:template>
+	
+	<xsl:template match="text()">
+		<xsl:value-of select="." />
 	</xsl:template>
 	
 </xsl:stylesheet>

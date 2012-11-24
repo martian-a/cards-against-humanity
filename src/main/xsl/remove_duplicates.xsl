@@ -32,14 +32,20 @@
 			<xsl:for-each-group select="suit" group-by="@color">				
 				<xsl:element name="suit">
 					<xsl:attribute name="color" select="current-grouping-key()" />
-					<xsl:for-each-group select="//suit[@color = current-grouping-key()]/card" group-by="text()">
-						<card><xsl:value-of select="text()" /></card>
+					<xsl:for-each-group select="//suit[@color = current-grouping-key()]/card" group-by=".">
+						<card><xsl:apply-templates /></card>
 					</xsl:for-each-group>
 				</xsl:element>
 			</xsl:for-each-group>
 		</xsl:element>	
 	</xsl:template>
 	
+	<xsl:template match="text()">
+		<xsl:value-of select="." />
+	</xsl:template>
 	
+	<xsl:template match="blank">
+		<xsl:copy-of select="." />
+	</xsl:template>
 	
 </xsl:stylesheet>

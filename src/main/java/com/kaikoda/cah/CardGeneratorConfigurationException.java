@@ -5,21 +5,19 @@ package com.kaikoda.cah;
  * CardGenerator.
  * 
  * @author Sheila Thomson
- * 
  */
 public class CardGeneratorConfigurationException extends Exception {
-
-	/**
-	 * @param string
-	 *            a custom message summarising the exception.
-	 */
-	public CardGeneratorConfigurationException(String string) {
-		super(string);
-	}
 
 	/**
 	 * Version ID for serialisation.
 	 */
 	private static final long serialVersionUID = 2843031643211993028L;
+
+	/**
+	 * @param string a custom message summarising the exception.
+	 */
+	public CardGeneratorConfigurationException(String string) {
+		super(string);
+	}
 
 }

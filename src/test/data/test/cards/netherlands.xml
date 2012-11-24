@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<game xml:lang="en-nl">
+	<deck>
+		<suit color="white">
+			<card>The Driving Judge</card>
+			<card>Breaker™</card>
+		</suit>
+		<suit color="black">
+			<card>Royal Marechaussee guidelines now prohibit __________ on airplanes.</card>
+			<card>The Premier Division has banned __________ for giving players an unfair advantage.</card>
+		</suit>
+	</deck>
+</game>
