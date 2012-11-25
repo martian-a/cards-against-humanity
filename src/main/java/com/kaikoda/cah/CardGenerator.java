@@ -22,6 +22,10 @@ import com.kaikoda.cah.ProgressReporter.ProgressReporterMode;
  */
 public class CardGenerator {
 
+	protected enum CardGeneratorProduct {		
+		HTML, PDF, XML;		
+	}
+
 	/**
 	 * A utility for providing feedback to the user of this application.
 	 */
@@ -36,7 +40,7 @@ public class CardGenerator {
 	public CardGenerator() throws CardGeneratorConfigurationException {
 		this.progressReporter = new ProgressReporter();
 	}
-
+	
 	/**
 	 * Generates a printable deck of Cards Against Humanity.
 	 * 
@@ -53,7 +57,7 @@ public class CardGenerator {
 	public static void main(String[] args) throws CardGeneratorConfigurationException, ParseException, SAXException, IOException, ParserConfigurationException {
 
 		ProgressReporterMode verbosity = ProgressReporterMode.NORMAL;
-		
+
 		CardGenerator generator = new CardGenerator();
 		generator.setVerbosity(verbosity);
 
@@ -63,53 +67,65 @@ public class CardGenerator {
 		// Interpret the arguments supplied at runtime.
 		TreeMap<String, String> params = options.parse(args);
 
-		//  Check whether a level of verbosity has been specified.
+		// Check whether a level of verbosity has been specified.
 		if (params.containsKey("verbosity")) {
 			verbosity = ProgressReporterMode.valueOf(params.get("verbosity").toUpperCase());
 			generator.setVerbosity(verbosity);
 		}
-		
+
 		// Check whether help has been requested.
 		if (params.containsKey("help")) {
 
 			if (verbosity.equals(ProgressReporterMode.NORMAL)) {
 
-				// Print a list of the options that can be used with CardGenerator.
+				// Print a list of the options that can be used with
+				// CardGenerator.
 				System.out.println("\n" + params.get("help"));
-				
-			}			
+
+			}
 
 		} else {
-	
+
 			File data = new File(params.remove("path-to-data"));
-	
+			
+			CardGeneratorProduct product = CardGeneratorProduct.HTML;
+			if (params.containsKey("product")) {
+				product = CardGeneratorProduct.valueOf(params.remove("product").toUpperCase());
+			}
+			
 			Locale targetLanguage = null;
 			if (params.containsKey("output-language")) {
 				targetLanguage = Locale.forLanguageTag(params.remove("output-language"));
 			}
-	
+
 			File dictionary = null;
 			if (params.containsKey("path-to-dictionary")) {
 				dictionary = new File(params.remove("path-to-dictionary"));
 			}
-	
-			generator.generate(data, targetLanguage, dictionary);
-		
+
+			generator.generate(data, targetLanguage, dictionary, product);
+
 		}
 	}
-
+	
+	public File generate(File data, Locale targetLanguage, File dictionary) throws SAXException, IOException, ParserConfigurationException {
+		return this.generate(data, targetLanguage, dictionary, CardGeneratorProduct.HTML);
+	}
+	
 	/**
 	 * Generates a printable deck of Cards Against Humanity.
 	 * 
 	 * @param data
 	 * @param targetLanguage
 	 * @param dictionary
+	 * @param product 
 	 * @return a pointer to the main file output.
-	 * @throws SAXException
-	 * @throws IOException
-	 * @throws ParserConfigurationException
+	 * @throws SAXException when there's a problem parsing the card data or dictionary.
+	 * @throws IOException when there's a problem reading the card data or dictionary or when saving the output.
+	 * @throws ParserConfigurationException when there's a problem configuring
+	 *         the data parser.
 	 */
-	public File generate(File data, Locale targetLanguage, File dictionary) throws SAXException, IOException, ParserConfigurationException {
+	public File generate(File data, Locale targetLanguage, File dictionary, CardGeneratorProduct product) throws SAXException, IOException, ParserConfigurationException {
 
 		if (!data.exists()) {
 
@@ -186,6 +202,48 @@ public class CardGenerator {
 			this.feedback("Unable to complete de-duping process.", true);
 		}
 
+		File productLocation = null;
+		if (product.equals(CardGeneratorProduct.XML)) {
+			productLocation = this.generateXml(deck);
+		} else {
+			productLocation = this.generateHTML(deck);
+		}
+
+		this.feedback("Card generation complete.");
+
+		return productLocation;
+	}
+	
+	public ProgressReporterMode getVerbosity() {
+		return this.progressReporter.getMode();
+	}
+	
+	public void setVerbosity(ProgressReporterMode verbosity) {
+		this.progressReporter.setMode(verbosity);
+	}
+
+	/**
+	 * Provide feedback to the user of this application (not including errors).
+	 * 
+	 * @param message a message to the user.
+	 */
+	private void feedback(String message) {
+		this.feedback(message, false);
+	}
+
+	/**
+	 * Provide feedback to the user of this application (including errors).
+	 * 
+	 * @param message a message to the user.
+	 * @param isError true if the message should be reported as an error. Is
+	 *        false by default.
+	 */
+	private void feedback(String message, boolean isError) {
+		this.progressReporter.feedback(message, isError);
+	}
+
+	private File generateHTML(Deck deck) {
+		
 		this.feedback("Generating HTML...");
 		File htmlOutputLocation = null;
 		try {
@@ -231,45 +289,39 @@ public class CardGenerator {
 			path = outputDirectory.getName() + File.separator + "branding_on_black_cards.png";
 			FileUtils.copyURLToFile(this.getClass().getResource(File.separator + path), new File(path));
 
-			this.feedback("...file saved:\n");
+			this.feedback("...file saved:");
 			this.feedback(outputDirectory.getAbsolutePath());
 
 		} catch (IOException e) {
 			e.printStackTrace();
 			this.feedback("Unable to style.  Do it yourself.", true);
 		}
-
-		this.feedback("Card generation complete.");
-
+		
 		return htmlOutputLocation;
+		
 	}
 
-	public ProgressReporterMode getVerbosity() {
-		return this.progressReporter.getMode();
-	}
+	private File generateXml(Deck deck) {
 
-	public void setVerbosity(ProgressReporterMode verbosity) {
-		this.progressReporter.setMode(verbosity);
-	}
+		this.feedback("Generating XML...");
+		File productOutputLocation = null;
 
-	/**
-	 * Provide feedback to the user of this application (not including errors).
-	 * 
-	 * @param message a message to the user.
-	 */
-	private void feedback(String message) {
-		this.feedback(message, false);
-	}
-	
-	/**
-	 * Provide feedback to the user of this application (including errors).
-	 * 
-	 * @param message a message to the user.
-	 * @param isError true if the message should be reported as an error. Is
-	 *        false by default.
-	 */
-	private void feedback(String message, boolean isError) {
-		this.progressReporter.feedback(message, isError);
+			String xml = deck.toString();
+			
+			try {
+				
+				productOutputLocation = new File("cards_against_humanity.xml");
+				FileUtils.writeStringToFile(productOutputLocation, xml, "UTF-8");
+				
+			} catch (IOException e) {
+				this.feedback("Unable to save cards to file.", true);
+			}
+
+			this.feedback("...file saved:");
+			this.feedback(productOutputLocation.getAbsolutePath() + "\n");
+
+		
+		return productOutputLocation;
 	}
 
 }

@@ -82,6 +82,7 @@ public class CardGeneratorOptions {
 		File inputLocation = null;
 		File dictionaryLocation = null;
 		String targetLanguage = null;
+		String product = null;
 		
 		// Retrieve the input file
 		if (line.hasOption("f")) {
@@ -96,6 +97,11 @@ public class CardGeneratorOptions {
 		// Retrieve the locale code
 		if (line.hasOption("l")) {
 			targetLanguage = line.getOptionValue("l");
+		}
+		
+		// Retrieve the product required
+		if (line.hasOption("p")) {
+			product = line.getOptionValue("p");
 		}
 
 		// Check whether an input location has been specified (required).
@@ -119,6 +125,14 @@ public class CardGeneratorOptions {
 
 			// Add the target language to the parsed option data
 			params.put("output-language", targetLanguage);
+
+		}
+		
+		// Check whether a product has been specified
+		if (product != null) {
+
+			// Add the product to the parsed option data
+			params.put("product", product);
 
 		}
 
@@ -155,16 +169,18 @@ public class CardGeneratorOptions {
 		// Configure valid options accepted from the command-line
 		options = new Options();
 
-		// The name of the file or directory to be processed
+		// The name of the file to be processed
 		options.addOption("f", true, "path to the card data file.");
 
-		// The location of the distro folder
+		// The location of the dictionary
 		options.addOption("d", true, "path to the dictionary to use for translating.");
 
-		// The abbreviated name of the schema that the input file/s conform/s
-		// to, eg. jats, npg, aj
-		options.addOption("l", true, "locale, a code compatible with IETF BCP 47, Tags for Identifying Languages.  eg. en-GB (British English), en-NL (Dutch English), nl-NL (Dutch Dutch), en-x-pirate (Pirate English)");
-				
+		// The target language
+		options.addOption("l", true, "locale, representing the culture that you would like the cards translated into.  Should be a code compatible with IETF BCP 47, Tags for Identifying Languages.  eg. en-GB (British English), en-NL (Dutch English), nl-NL (Dutch Dutch), en-x-pirate (Pirate English)");
+		
+		// The product required
+		options.addOption("p", true, "the product required: html (default), xml or pdf");
+		
 		// Verbosity
 		// TODO: Implement an enum representing the reporting modes available
 		// TODO: Update to match enum values.

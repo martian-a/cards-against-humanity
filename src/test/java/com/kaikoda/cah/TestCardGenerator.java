@@ -7,8 +7,6 @@ import static org.junit.Assert.assertNotNull;
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
@@ -27,6 +25,7 @@ import org.junit.rules.ExpectedException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import com.kaikoda.cah.CardGenerator.CardGeneratorProduct;
 import com.kaikoda.cah.ProgressReporter.ProgressReporterMode;
 
 /**
@@ -56,6 +55,12 @@ public class TestCardGenerator {
 	 */
 	private static final File OUTPUT_FILE_HTML = new File(System.getProperty("user.dir") + File.separator + "cards_against_humanity.html");
 
+	/**
+	 * A pointer to where the XML file is expected to be saved.
+	 */
+	private static final File OUTPUT_FILE_XML = new File(System.getProperty("user.dir") + File.separator + "cards_against_humanity.html");
+
+	
 	/**
 	 * For declaring what kind of exception is expected, when one is expected.
 	 */
@@ -109,6 +114,7 @@ public class TestCardGenerator {
 
 		// Delete the output files.
 		TestCardGenerator.OUTPUT_FILE_HTML.delete();
+		TestCardGenerator.OUTPUT_FILE_XML.delete();
 		FileUtils.deleteDirectory(TestCardGenerator.OUTPUT_FILE_ASSETS);
 
 		// Release the re-usable instance of CardGenerator.
@@ -549,11 +555,42 @@ public class TestCardGenerator {
 		File xml = this.getFile("/data/test/cards/html5.xml");
 
 		// Build the cards
-		String result = this.getXmlString(generator.generate(xml, null, null));
+		String result = this.getXmlString(generator.generate(xml, null, null, CardGeneratorProduct.HTML));
 
 		// Retrieve test card data that contains the same cards but no
 		// duplicates.
 		String expected = this.getXmlString(this.getFile("/data/control/cards/html5.html"));
+
+		// Check that the result is the same cards, but in just two decks and
+		// with no duplicates.
+		assertXMLEqual(expected, result);
+
+	}
+	
+	/**
+	 * Check that the XML version is generated correctly.
+	 * 
+	 * @throws SAXException if an error occurs while building one of the test or
+	 *         control documents.
+	 * @throws IOException if an error occurs while reading one of the test or
+	 *         control documents.
+	 * @throws TransformerException is an unrecoverable error occurs during the
+	 *         transformation.
+	 * @throws ParserConfigurationException
+	 */
+	@Test
+	public void testCardGeneratorToXml() throws SAXException, IOException, TransformerException, ParserConfigurationException {
+
+		// Retrieve test card data containing enough cards for multiple pages of
+		// each deck
+		File xml = this.getFile("/data/test/cards/html5.xml");
+
+		// Build the cards
+		String result = this.getXmlString(generator.generate(xml, null, null, CardGeneratorProduct.XML));
+
+		// Retrieve test card data that contains the same cards but no
+		// duplicates.
+		String expected = this.getXmlString(this.getFile("/data/control/cards/html5.xml"));
 
 		// Check that the result is the same cards, but in just two decks and
 		// with no duplicates.
