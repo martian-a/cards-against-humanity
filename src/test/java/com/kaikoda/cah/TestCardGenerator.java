@@ -58,7 +58,7 @@ public class TestCardGenerator {
 	/**
 	 * A pointer to where the XML file is expected to be saved.
 	 */
-	private static final File OUTPUT_FILE_XML = new File(System.getProperty("user.dir") + File.separator + "cards_against_humanity.html");
+	private static final File OUTPUT_FILE_XML = new File(System.getProperty("user.dir") + File.separator + "cards_against_humanity.xml");
 
 	
 	/**
