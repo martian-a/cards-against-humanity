@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game xml:lang="en-gb">
+	<licence href="http://creativecommons.org/licenses/by-nc-sa/2.0/">Attribution-NonCommercial-ShareAlike 2.0 Generic (CC BY-NC-SA 2.0)</licence>
 	<deck>
 		<suit color="white">
 			<card>_Capturing Newt Gingrich and making him dance in a monkey suit</card>

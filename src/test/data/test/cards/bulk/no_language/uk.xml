@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<game xml:lang="en-nl">
+<game>
 	<licence href="http://creativecommons.org/licenses/by-nc-sa/2.0/">Attribution-NonCommercial-ShareAlike 2.0 Generic (CC BY-NC-SA 2.0)</licence>
 	<deck>
 		<suit color="white">
-			<card>The Driving Judge</card>
-			<card>Breaker™</card>
+			<card>Jeremy Kyle</card>
+			<card>Frubes™</card>
 		</suit>
 		<suit color="black">
-			<card>Royal Marechaussee guidelines now prohibit __________ on airplanes.</card>
-			<card>The Premier Division has banned __________ for giving players an unfair advantage.</card>
+			<card>UK Border Agency guidelines now prohibit __________ on airplanes.</card>
+			<card>Premier League Football has banned __________ for giving players an unfair advantage.</card>
 		</suit>
 	</deck>
 </game>

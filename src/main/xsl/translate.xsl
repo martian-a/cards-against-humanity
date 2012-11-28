@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+* Cards Against Humanity Card Generator
+* Copyright (C) 2012  Sheila Thomson
+* 
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <xsl:stylesheet 
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -22,8 +39,8 @@
 		doctype-system="../schema/cards.dtd"
 	/>
 	
-	<xsl:template match="game">
-		<xsl:variable name="source-language" select="lower-case(normalize-space(@xml:lang))" as="xs:string?" />
+	<xsl:template match="/">
+		<xsl:variable name="source-language" select="lower-case(normalize-space(game/@xml:lang))" as="xs:string?" />
 		<xsl:variable name="target-language" as="xs:string?">
 			<xsl:choose>
 				<!-- If no target language has been specified, assume it's to be the same as the source langauge -->
@@ -33,7 +50,7 @@
 					<xsl:value-of select="lower-case(normalize-space($output-language))" />
 				</xsl:otherwise>
 			</xsl:choose>
-		</xsl:variable>
+		</xsl:variable>			
 		
 		<xsl:variable name="entries" as="element()*">
 			<xsl:if test="$source-language != '' and $target-language != ''">
@@ -41,7 +58,7 @@
 			</xsl:if>
 		</xsl:variable>
 		
-		<xsl:apply-templates select="self::game" mode="translate">
+		<xsl:apply-templates select="game" mode="translate">
 			<xsl:with-param name="entries" select="$entries" as="element()*" tunnel="yes" />
 			<xsl:with-param name="source-language" select="$source-language" as="xs:string?" tunnel="yes" />
 			<xsl:with-param name="target-language" select="$target-language" as="xs:string?" tunnel="yes" />
@@ -65,7 +82,8 @@
 				</xsl:choose>
 			</xsl:attribute>			
 			<xsl:copy-of select="@*[not(name() = 'xml:lang')]" />
-			<xsl:apply-templates mode="translate" />
+			<xsl:copy-of select="licence" />
+			<xsl:apply-templates select="deck" mode="translate" />
 		</xsl:element>
 	</xsl:template>
 
@@ -81,7 +99,9 @@
 		<xsl:param name="source-language" as="xs:string?" tunnel="yes" />
 		<xsl:param name="target-language" as="xs:string?" tunnel="yes" />
 		
-		<xsl:value-of select="cah:translate(., $entries, $source-language, $target-language)" />
+		<xsl:if test="normalize-space(.) != ''">
+			<xsl:value-of select="cah:translate(., $entries, $source-language, $target-language)" />
+		</xsl:if>			
 	</xsl:template>
 	
 	<xsl:function name="cah:translate" as="xs:string">

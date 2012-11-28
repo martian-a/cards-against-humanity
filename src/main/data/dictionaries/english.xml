@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dictionary PUBLIC "-//Kaikoda//DTD CAH Dictionary 1.0//EN" "../schema/dictionary.dtd">
 <dictionary>
+	<licence href="http://creativecommons.org/licenses/by-nc-sa/2.0/">Attribution-NonCommercial-ShareAlike 2.0 Generic (CC BY-NC-SA 2.0)</licence>
 	<entry>
 		<term xml:lang="en-us">TSA</term>
 		<term xml:lang="en-gb">UK Border Agency</term>
@@ -13,7 +14,7 @@
 	</entry>
 	<entry>
 		<term xml:lang="en-us">Hardworking Mexican</term>
-		<term xml:lang="en-gb">Hardworking Poles</term>
+		<term xml:lang="en-gb">Hardworking Pole</term>
 	</entry>
 	<entry>
 		<term xml:lang="en-us">The Kool-Aid Man</term>
@@ -49,10 +50,6 @@
 	<entry>
 		<term xml:lang="en-us">Republicans</term>
 		<term xml:lang="en-gb">Tories</term>
-	</entry>
-	<entry>
-		<term xml:lang="en-us">Rush Limbaugh's soft, shitty body</term>
-		<term xml:lang="en-gb">Melanie Phillips wanking herself into a franzy while wanging on about Israel</term>
 	</entry>
 	<entry>
 		<term xml:lang="en-us">Filling Sean Hannity with helium and watching him float away</term>

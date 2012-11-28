@@ -4,14 +4,26 @@
     <!-- Import W3C schema for namespaces so can explicitly reference xml:lang -->
     <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd" />
 
-    <!-- Root element: dictionary (entry*) -->
+    <!-- Root element: dictionary (licence, entry*) -->
     <xs:element name="dictionary">
         <xs:complexType>
             <xs:sequence>
+            	<xs:element minOccurs="1" maxOccurs="1" ref="licence"/>
                 <xs:element minOccurs="0" maxOccurs="unbounded" ref="entry"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+	
+	<!-- licence (#PCDATA) -->
+	<xs:element name="licence">	
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="href" type="xs:string" use="optional" />
+				</xs:extension>
+			</xs:simpleContent>			
+		</xs:complexType>
+	</xs:element> 
     
     <!-- entry (term+) -->
     <xs:element name="entry">

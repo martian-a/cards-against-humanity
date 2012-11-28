@@ -4,9 +4,13 @@
 <!DOCTYPE game PUBLIC "-//Kaikoda//DTD CAH Cards 1.0//EN" "http://cah.kaikoda.com/data/schema/cards.dtd">	
 -->
 
-<!ELEMENT game (deck) >
+<!ELEMENT game (licence, deck) >
 <!ATTLIST game    
     xml:lang NMTOKEN #IMPLIED>
+
+<!ELEMENT licence (#PCDATA) >
+<!ATTLIST licence
+    href CDATA #REQUIRED >
 
 <!ELEMENT deck (suit*) >
 

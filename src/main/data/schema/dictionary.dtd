@@ -1,6 +1,10 @@
 <?xml encoding="UTF-8"?>
 
-<!ELEMENT dictionary (entry*) >
+<!ELEMENT dictionary (licence, entry*) >
+
+<!ELEMENT licence (#PCDATA) >
+<!ATTLIST licence
+    href CDATA #REQUIRED >
 
 <!ELEMENT entry (term+) >
 

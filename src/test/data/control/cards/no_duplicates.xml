@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game xml:lang="en-us">
+	<licence href="http://creativecommons.org/licenses/by-nc-sa/2.0/">Attribution-NonCommercial-ShareAlike 2.0 Generic (CC BY-NC-SA 2.0)</licence>
 	<deck>
 		<suit color="black">
 			<card><blank/>. High five, bro.</card>

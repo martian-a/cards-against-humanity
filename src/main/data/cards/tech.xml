@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE game PUBLIC "-//Kaikoda//DTD CAH Cards 1.0//EN" "../schema/cards.dtd">
 <game xml:lang="en-gb">
+	<licence href="http://creativecommons.org/licenses/by-nc-sa/2.0/">Attribution-NonCommercial-ShareAlike 2.0 Generic (CC BY-NC-SA 2.0)</licence>
 	<deck>
 		<suit color="white">
 			<card>Emacs</card>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game xml:lang="en-us">
+	<licence href="http://creativecommons.org/licenses/by-nc-sa/2.0/">Attribution-NonCommercial-ShareAlike 2.0 Generic (CC BY-NC-SA 2.0)</licence>
 	<deck>
 		<suit color="black">
 			<card>__________. High five, bro.</card>
@@ -15,19 +16,19 @@
 			<card>TSA guidelines now prohibit __________ on airplanes.</card>
 			<card>When I was tripping on acid, __________ turned into __________.</card>
 		</suit>
-		<suit color="black">
-			<card>TSA guidelines now prohibit __________ on airplanes.</card>
-			<card>It's a pity that kids these days are all getting involved with __________.</card>
-			<card>What has been making life difficult at the nudist colony?</card>
-			<card>And I would have gotten away with it, too, if it hadn't been for __________.</card>
-			<card>What brought the orgy to a grinding halt?</card>
-		</suit>
 		<suit color="white">
 			<card>A Gypsy curse.</card>
 			<card>A moment of silence.</card>
 			<card>Flesh-eating bacteria.</card>
 			<card>An honest cop with nothing left to lose.</card>
 			<card>Famine.</card>
+		</suit>
+		<suit color="black">
+			<card>TSA guidelines now prohibit __________ on airplanes.</card>
+			<card>It's a pity that kids these days are all getting involved with __________.</card>
+			<card>What has been making life difficult at the nudist colony?</card>
+			<card>And I would have gotten away with it, too, if it hadn't been for __________.</card>
+			<card>What brought the orgy to a grinding halt?</card>
 		</suit>
 		<suit color="white">
 			<card>Flesh-eating bacteria.</card>
